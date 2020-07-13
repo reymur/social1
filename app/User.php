@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'login', 'email', 'password', 'first_name', 'last_name', 'location',
     ];
 
     /**
@@ -36,4 +37,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getUserFullNames()
+    {
+        return $this->isFirstNameAndLastName() ?
+               $this->getFirstNameAndLastName() :
+               $this->getFirstNameOrLogin();
+    }
+
+    public function getFirstNameOrLogin()
+    {
+        return $this->first_name ?? $this->login;
+    }
+
+    public function isFirstNameAndLastName()
+    {
+        return ($this->first_name && $this->last_name) ?? false;
+    }
+
+    public function getFirstNameAndLastName()
+    {
+        return $this->isFirstNameAndLastName() ?
+              "{$this->first_name} {$this->last_name}" : false;
+    }
+
 }
