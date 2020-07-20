@@ -23,3 +23,7 @@ Route::get('/user/{id}', 'ProfilController@index')->middleware('auth')->name('pr
 
 // User profile edit
 Route::resource('/profile-edit', 'UserProfileEditController')->middleware('auth');
+
+// Friends index page
+Route::get('/friends', 'FriendsController@index')->name('friends');
+

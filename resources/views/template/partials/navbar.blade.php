@@ -13,7 +13,7 @@
                         <a class="nav-link" href="#">Wall</a>
                     </li>
                     <li class="nav-item mr-md-2">
-                        <a class="nav-link" href="#">Friends</a>
+                        <a class="nav-link" href="{{ route('friends') }}">Friends</a>
                     </li>
 
                     @include('template.partials.forms.search_form')

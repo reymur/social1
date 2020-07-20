@@ -1,6 +1,6 @@
 
 <div class="mb-3">
-    <div class="row no-gutters">
+    <div class="row">
         <div class="col-md-2 mr-2">
             <img class="friend-block-image" src="{{ $user->getUserAvatar() }}" alt="Avatar">
         </div>
