@@ -24,10 +24,12 @@
                 <ul class="nav nav-bar">
                     @if(Auth::check())
                         <li class="nav-item">
-                            <a href="" class="nav-link text-light"> {{ Auth::user()->getUserFullNames() ?? Auth::user()->getFirstNameOrLogin() }}</a>
+                            <a href="" class="nav-link text-light">
+                                {{ Auth::user()->getUserFullName() ?? Auth::user()->getFirstNameOrLogin() }}
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link text-light">Profil</a>
+                            <a href="{{ route('profile', ['id' => Auth::user()->id]) }}" class="nav-link text-light">Profile edit</a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('logout') }}" class="nav-link text-light">Logout</a>

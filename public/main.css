@@ -9,5 +9,12 @@
     margin-top: 20px;
 }
 
+.word-break {
+    word-break: break-word;
+}
+
+.friend-block-image {
+    width: 50px;
+}
 
 

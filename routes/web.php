@@ -2,31 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
+// Web Routes
 
 Route::get('/', 'HomeController@index')->name('home');
 
-/**
- * Registration
- */
+// Registration
 Route::resource('/register', 'RegistrationController')->middleware('guest');
 
-/**
- *  LoginController
- */
+// LoginController
 Route::resource('/login', 'LoginController')->middleware('guest');
 
-/**
- *  Logout
- */
+ //  Logout
 Route::get('/logout', 'LogoutController@logout')->name('logout');
 
-/**
- *  SearchController
- */
+ //SearchController
 Route::get('/search', 'SearchController@index')->name('search.results');
 
+// User profile info
+Route::get('/user/{id}', 'ProfilController@index')->middleware('auth')->name('profile');
+
+// User profile edit
+Route::resource('/profile-edit', 'UserProfileEditController')->middleware('auth');

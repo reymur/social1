@@ -38,10 +38,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getUserFullNames()
+    public function getUserFullName()
     {
-        return $this->isFirstNameAndLastName() ?
-               $this->getFirstNameAndLastName() :
+        return $this->hasFirstNameAndLastName() ?
+               $this->getFirstNameAndLastNameString() :
                $this->getFirstNameOrLogin();
     }
 
@@ -50,15 +50,39 @@ class User extends Authenticatable
         return $this->first_name ?? $this->login;
     }
 
-    public function isFirstNameAndLastName()
+    public function hasFirstNameAndLastName():bool
     {
-        return ($this->first_name && $this->last_name) ?? false;
+        return $this->first_name && $this->last_name;
     }
 
-    public function getFirstNameAndLastName()
+    public function getFirstNameAndLastNameString()
     {
-        return $this->isFirstNameAndLastName() ?
-              "{$this->first_name} {$this->last_name}" : false;
+        return $this->hasFirstNameAndLastName() ?
+              ("{$this->first_name} {$this->last_name}") : false;
+    }
+
+    public function getUserAvatar()
+    {
+        $email = strtolower( trim($this->email) );
+        $size = 170;
+
+        return "https://www.gravatar.com/avatar/". md5($email) . '?d=mm' . '&s='. $size;
+    }
+
+    public function friendsOfMine()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
+    }
+
+    public function friendOf()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id');
+    }
+
+    public function friends()
+    {
+        return $this->friendsOfMine()->wherePivot('accepted', true)->get()
+           ->merge( $this->friendOf()->wherePivot('accepted', true)->get());
     }
 
 }
